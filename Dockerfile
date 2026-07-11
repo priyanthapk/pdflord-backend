@@ -4,14 +4,20 @@
 FROM node:20-slim
 
 # Install LibreOffice (headless-capable) and fonts so documents using
-# common fonts (Calibri-alikes, Arial-alikes, etc.) render correctly.
+# common fonts (Calibri-alikes, Arial-alikes, etc.) AND non-Latin scripts
+# like Sinhala render correctly instead of showing tofu boxes / missing glyphs.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice \
     fonts-liberation \
     fonts-dejavu \
     fonts-crosextra-carlito \
     fonts-crosextra-caladea \
-    && rm -rf /var/lib/apt/lists/*
+    fonts-lklug-sinhala \
+    fonts-noto-core \
+    fonts-noto-unhinted \
+    fonts-noto-cjk \
+    && rm -rf /var/lib/apt/lists/* \
+    && fc-cache -f -v
 
 WORKDIR /app
 
